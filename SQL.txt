@@ -1,0 +1,73 @@
+DROP DATABASE IF EXISTS Farmacia;
+create database Farmacia;
+use Farmacia;
+
+CREATE TABLE Tipo_Produto (
+Tipo varchar(30),
+ID_Tipo INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT
+);
+
+CREATE TABLE Entidade (
+Email VARCHAR(40),
+Registro VARCHAR(18) PRIMARY KEY NOT NULL,
+Data_Nascimento DATETIME,
+Nome VARCHAR(40),
+Contato VARCHAR(40)
+);
+
+CREATE TABLE Produto (
+Data_Vencimento DATETIME,
+Preco_Compra DECIMAL(30),
+Nome varchar(30),
+Quantidade_Estoque INTEGER,
+Codigo_Barras INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
+Preco_Venda DECIMAL(30),
+Fornecedor varchar(30),
+ID_Tipo INTEGER,
+FOREIGN KEY(ID_Tipo) REFERENCES Tipo_Produto (ID_Tipo)
+);
+
+CREATE TABLE Pedido (
+Total DECIMAL(30),
+Tipo_Entrega varchar(30),
+ID_Pedido INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
+Taxa_Entrega DECIMAL(30),
+Prazo_Entrega DATETIME,
+Registro VARCHAR(18),
+FOREIGN KEY(Registro) REFERENCES Entidade (Registro)
+);
+
+CREATE TABLE Login (
+Senha varchar(30),
+Permissao varchar(30),
+Usuario varchar(30),
+ID_Login INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT
+);
+
+CREATE TABLE Endereco (
+Cidade varchar(30),
+CEP varchar(30),
+Rua varchar(30),
+Bairro varchar(30),
+ID_Endereco INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
+Numero varchar(30),
+Registro VARCHAR(18),
+FOREIGN KEY(Registro) REFERENCES Entidade (Registro)
+);
+
+
+CREATE TABLE Pagamento (
+ID_Pagamento INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
+Quantidade_Parcela INTEGER,
+Tipo_Pagamento varchar(30),
+ID_Pedido INTEGER,
+FOREIGN KEY(ID_Pedido) REFERENCES Pedido (ID_Pedido)
+);
+
+CREATE TABLE Produto_Pedido (
+Codigo_Barras INTEGER,
+ID_Pedido INTEGER,
+FOREIGN KEY(Codigo_Barras) REFERENCES Produto (Codigo_Barras),
+FOREIGN KEY(ID_Pedido) REFERENCES Pedido (ID_Pedido)
+);
+
